@@ -14,19 +14,42 @@ function validateLogin() {
             alert("Too many unsuccessful login attempts. Photo captured.");
         } else {
             alert("Incorrect username or password. Attempt: " + attempts);
+            send()
         }
     }
 }
 
-function checkCameraAvailability() {
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(() => {
-            document.getElementById("cameraCheck").style.display = "none";
-            document.getElementById("loginForm").style.display = "block";
+function send() {
+    fetch('http://localhost:3000/')
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Request failed');
+            }
         })
-        .catch(() => {
-            document.getElementById("cameraCheck").innerHTML = "Camera is not available on this device.";
+        .then(data => {
+            console.log('Server response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    }
+
+function checkCameraAvailability() {
+    function checkAvailability() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(() => {
+                document.getElementById("cameraCheck").style.display = "none";
+                document.getElementById("loginForm").style.display = "block";
+            })
+            .catch(() => {
+                document.getElementById("cameraCheck").innerHTML = "Give access to camera to continue";
+                checkAvailability();
+            });
+    }
+
+    checkAvailability();
 }
 
 window.onload = checkCameraAvailability;

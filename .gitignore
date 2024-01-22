@@ -1,0 +1,4 @@
+/node_modules
+/image.jpg
+/sendmail.js
+.env
