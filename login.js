@@ -199,6 +199,7 @@ function disableForm() {
     for (let i = 0; i < formElements.length; i++) {
         formElements[i].disabled = true;
     }
+    document.getElementById("btn").disabled = true;
 }
 
 function enableForm() {
@@ -207,6 +208,7 @@ function enableForm() {
     for (let i = 0; i < formElements.length; i++) {
         formElements[i].disabled = false;
     }
+    document.getElementById("btn").disabled = false;
 }
 
 function savePhotoLocally(dataUrl) {
