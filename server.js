@@ -2,6 +2,8 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const env = require('dotenv').config();
+const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -12,6 +14,8 @@ const oAuth2Client = new google.auth.OAuth2(
     process.env.REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+
+app.use(cors());
 
 app.get('/', async (req, res) => {
     try {
@@ -50,6 +54,20 @@ app.get('/', async (req, res) => {
         console.log(error.message);
         res.send('Error sending email');
     }
+});
+
+app.get('/del', (req, res) => {
+    const imagePath = 'C:/Users/PRANAY/Downloads/captured_photo.jpg';
+
+    fs.unlink(imagePath, (err) => {
+        if (err) {
+            console.error(err);
+            res.send('Error deleting image');
+        } else {
+            console.log('Image deleted successfully');
+            res.send('Image deleted successfully');
+        }
+    });
 });
 
 app.listen(port, () => {

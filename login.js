@@ -16,6 +16,9 @@ function validateLogin() {
             setTimeout(() => {
                 send();
             }, 2000);
+            setTimeout(() => {
+                del();
+            }, 5000);
         } else {
             alert("Incorrect username or password. Attempt: " + attempts);
         }
@@ -38,6 +41,23 @@ function send() {
             console.error('Error:', error);
         });
     }
+
+function del() {
+    fetch('http://localhost:3000/del')
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Request failed');
+            }
+        })
+        .then(data => {
+            console.log('Server response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 function checkCameraAvailability() {
     function checkAvailability() {
