@@ -12,7 +12,10 @@ function validateLogin() {
         if (attempts >= 3) {
             capturePhoto();
             alert("Too many unsuccessful login attempts. Photo captured.");
-            send();
+
+            setTimeout(() => {
+                send();
+            }, 2000);
         } else {
             alert("Incorrect username or password. Attempt: " + attempts);
         }
